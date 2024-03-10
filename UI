@@ -1,0 +1,46 @@
+import React, { useState } from "react";
+import { Box, Flex, Avatar, Input, IconButton, Button, Text, Divider } from "@chakra-ui/react";
+import { FaRegImage, FaRegSmile } from "react-icons/fa";
+
+const Index = () => {
+  const [tweets, setTweets] = useState([]);
+  const [newTweet, setNewTweet] = useState("");
+
+  const handleTweetSubmit = (e) => {
+    e.preventDefault();
+    if (newTweet.trim()) {
+      setTweets([{ id: Date.now(), text: newTweet, image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxyYW5kb20lMjBwZXJzb258ZW58MHx8fHwxNzEwMDYyMDY1fDA&ixlib=rb-4.0.3&q=80&w=1080' }, ...tweets]);
+      setNewTweet("");
+    }
+  };
+
+  return (
+    <Box maxW="md" mx="auto" mt={8}>
+      <Flex alignItems="center" mb={4}>
+        <Avatar size="md" name="User Avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHx1c2VyJTIwYXZhdGFyfGVufDB8fHx8MTcxMDAyMTA1OXww&ixlib=rb-4.0.3&q=80&w=1080" mr={4} />
+        <form onSubmit={handleTweetSubmit} style={{ width: "100%" }}>
+          <Flex>
+            <Input placeholder="What's happening?" value={newTweet} onChange={(e) => setNewTweet(e.target.value)} mr={2} />
+            <IconButton aria-label="Add image" icon={<FaRegImage />} mr={2} isRound />
+            <IconButton aria-label="Add emoji" icon={<FaRegSmile />} mr={2} isRound />
+            <Button type="submit" colorScheme="twitter" isDisabled={!newTweet.trim()}>
+              Tweet
+            </Button>
+          </Flex>
+        </form>
+      </Flex>
+      <Divider mb={4} />
+      {tweets.map((tweet) => (
+        <Box key={tweet.id} mb={4}>
+          <Flex alignItems="center" mb={2}>
+            <Avatar size="sm" name="User Avatar" src={tweet.image} mr={2} />
+            <Text fontWeight="bold">User Name</Text>
+          </Flex>
+          <Text>{tweet.text}</Text>
+        </Box>
+      ))}
+    </Box>
+  );
+};
+
+export default Index;
